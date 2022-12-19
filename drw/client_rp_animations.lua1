@@ -1,0 +1,201 @@
+--[[-----------------------------------------------
+----script feito por Addlibs copom feito por Lucas Damaceno(anony)
+----em 2020. você pode usá-lo e editá-lo apenas o créditos são meus!
+----youtube:https://www.youtube.com/channel/UCf7N0XUAHmOLpRO4MfXTHaQ?view_as=subscriber
+--]]-----------------------------------------------
+local scrx, scry = guiGetScreenSize() 
+local CAUCULATE_x = function() if 640-scrx == 0 then return 1.02 else return scrx/640 end return 1.02 end
+local CAUCULATE_y = function() if 480-scry == 0 then return 1.02 else return scry/480 end return 1.02 end
+local x                     = CAUCULATE_x()
+local y                     = CAUCULATE_y()
+local key = "tab"
+
+local cpl = {}
+local animation = false
+local interpolate = false
+local progressAnimation = 0
+
+local Inventory = {--[[Função feita por anony]]}
+Inventory.drawShadowText = function(text,x,y,w,h,color,scale,font,...)
+    local bit = function(bit32) 
+        return bitExtract(bit32, 16, 8 ), bitExtract(bit32, 8, 8 ), bitExtract(bit32, 0, 8 ),bitExtract(bit32, 24, 8 )
+    end 
+    local _,_,_,alpha = bit(color)
+    dxDrawText(text:gsub ("#%x%x%x%x%x%x", ""),x-1,y,w,h,tocolor(0,0,0,alpha),scale,font,...)
+    dxDrawText(text:gsub ("#%x%x%x%x%x%x", ""),x,y-1,w,h,tocolor(0,0,0,alpha),scale,font,...)
+    dxDrawText(text:gsub ("#%x%x%x%x%x%x", ""),x+1,y,w,h,tocolor(0,0,0,alpha),scale,font,...)
+    dxDrawText(text:gsub ("#%x%x%x%x%x%x", ""),x,y+1,w,h,tocolor(0,0,0,alpha),scale,font,...)
+    dxDrawText(text,x,y,w,h,color,scale,font,...)
+end
+
+
+cpl.alpha = 0.0
+cpl.top = 0
+cpl.tickCount = getTickCount()
+cpl.top1 = 0
+local i = 0
+
+function convertNumber ( number )   
+    local formatted = number   
+    while true do       
+        formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1.%2')     
+        if ( k==0 ) then       
+            break   
+        end   
+    end   
+    return formatted 
+end
+
+local warning = 0
+cpl.timerLife = function()
+        local hunger = getElementData(localPlayer, "char:hunger")
+        if getElementData(localPlayer, "adminjail") == 1 and getElementData(localPlayer, "char:adminduty") == 0 then
+			return
+		end
+		
+		if hunger and hunger > 7 then
+            random = math.random(4, 7)
+            setElementData(localPlayer, "char:hunger", hunger - random)
+        elseif hunger and  hunger ~= 0 and hunger <= 7 then
+            setElementData(localPlayer, "char:hunger", 0)
+        else
+            if warning ~= 3 then
+                outputChatBox("[CPH MTA] #ffffffVocê está ficando com fome! Comer alguma coisa!",255, 255, 255, true)
+                
+                --exports.JoinQuitGtaV:createNotification("comida", "*Ei, Você está ficando com fome, Tente comer alguma coisa!", 5)
+
+                warning = warning + 1
+            else
+                setElementHealth(localPlayer, getElementHealth(localPlayer) - 3)
+            end
+        end
+        local hunger = getElementData(localPlayer, "char:thirst")
+		
+		if hunger and hunger > 7 then
+            random = math.random(4, 7)
+            setElementData(localPlayer, "char:thirst", hunger - random)
+        elseif hunger and hunger ~= 0 and hunger <= 7 then
+            setElementData(localPlayer, "char:thirst", 0)
+        else
+            if warning ~= 3 then
+                outputChatBox("[CPH MTA] #ffffff*Ei, Você está ficando com sede, Tente beber alguma coisa!",255, 255, 255, true)
+
+               -- exports.JoinQuitGtaV:createNotification("comida", "*Ei, Você está ficando com sede, Tente beber alguma coisa!", 5)
+
+
+                warning = warning + 1
+            else
+                setElementHealth(localPlayer, getElementHealth(localPlayer) - 3)
+            end
+        end
+end
+cpl.timer = setTimer(cpl.timerLife, 1000 * 60 * 6, 0)
+
+addEventHandler("onClientRender",root,function()
+	--if getPlayerName(localPlayer) == "ncp" then
+		if getElementData(localPlayer,"loggedin") then
+		if cpl.anim then
+			local tickCount_ = getTickCount() - cpl.tickCount
+			cpl.alpha = interpolateBetween(cpl.alpha,0,0,1.0,0,0,tickCount_/500,"InQuad")
+			cpl.top,cpl.top1 = interpolateBetween(cpl.top,cpl.top1,0,210,250,0,tickCount_/500,"InQuad")
+		else
+			local tickCount_ = getTickCount() - cpl.tickCount
+			cpl.alpha = interpolateBetween(cpl.alpha,0,0,0.0,0,0,tickCount_/500,"InQuad")
+			cpl.top,cpl.top1 = interpolateBetween(cpl.top,cpl.top1,0,56,56,0,tickCount_/500,"InQuad")
+		end
+	
+		--dxDrawRectangle(379*x,480*y-(cpl.top*y),1*x,200*y,tocolor(255,69,0,255*cpl.alpha))
+		--dxDrawRectangle(380*x,480*y-(cpl.top*y),180*x,200*y,tocolor(0,0,0,255*cpl.alpha))
+		
+		--Inventory.drawShadowText("Dados gerais",420*x,480*y-(cpl.top*y), 0, 0, tocolor(255,255,255, 255*cpl.alpha), 1*y, "diploma", "left", "top", false, false, false, true, false)
+		
+		
+		
+		
+		local colete = getPedArmor(localPlayer) or "0"
+		local id = getElementData(localPlayer, "char:id") or "Sem RG"
+		local level = getElementData(localPlayer, "Sys:Level") or "0"
+		local exp = getElementData(localPlayer, "LSys:EXP") or "1000"
+		local fome = getElementData(localPlayer, "char:hunger") or "20"
+		local sede = getElementData(localPlayer, "char:thirst") or "100"
+		local vida = getElementHealth(localPlayer) or "50"
+		local colete = getPedArmor(localPlayer) or "30"	
+        local money = convertNumber ( getElementData(localPlayer,"char:money") or "0")
+        local bank = convertNumber ( getElementData(localPlayer,"char:bankmoney") or "0")    
+        local realName = getPlayerName(getLocalPlayer())
+        local Encaminhado = getElementData ( localPlayer, "job") or getElementData ( localPlayer, "Emprego")  or "Desempregado"
+        if Encaminhado == "SemEmprego" then
+            Encaminhado = "Desempregado"
+        end      		
+		local total = getPedTotalAmmo( localPlayer )
+		local clip = getPedAmmoInClip( localPlayer )		
+		local centeryText4 = dxGetTextWidth(""..(clip),1.6,"clear") 
+		local mod = "normal"
+		local mode = getElementData(localPlayer,"cpl.voiceDistance")
+		if mode then
+			if mode == 6 then
+				mod = "sussurrar"
+			elseif mode == 20 then
+				mod = "normal"
+			elseif mode == 40 then
+				mod = "gritar"
+			end
+		end
+		
+		dxDrawRectangle(560*x,480*y-(cpl.top*y),80*x,200*y,tocolor(39,64,139,255*cpl.alpha))	
+		--dxDrawImageSection(576*x,480*y-(cpl.top*y), 50*x,50*y, 0, 0, 100, 100, "1.png", 0, 0, 0, tocolor(255,255,255, 255))
+		
+		dxDrawText("Dados gerais",564*x,478*y-(cpl.top*y), 0, 0, tocolor(255,255,255, 200*cpl.alpha), 0.6*x, "diploma", "left", "top", false, false, false, true, false)
+		
+		dxDrawText("Nome: "..realName,564*x,510*y-(cpl.top*y), 0, 0, tocolor(255,255,255, 200*cpl.alpha), 0.5*x, "default", "left", "top", false, false, false, true, false)
+		dxDrawText("Profissao: "..Encaminhado,564*x,520*y-(cpl.top*y), 0, 0, tocolor(255,255,255, 200*cpl.alpha), 0.5*x, "default", "left", "top", false, false, false, true, false)
+		dxDrawText("RG: "..id,564*x,530*y-(cpl.top*y), 0, 0, tocolor(255,255,255, 200*cpl.alpha), 0.5*x, "default", "left", "top", false, false, false, true, false)
+		dxDrawText("R$: "..money,564*x,540*y-(cpl.top*y), 0, 0, tocolor(255,255,255, 200*cpl.alpha), 0.5*x, "default", "left", "top", false, false, false, true, false)
+		dxDrawText("Banco R$: "..bank,564*x,550*y-(cpl.top*y), 0, 0, tocolor(255,255,255, 200*cpl.alpha), 0.5*x, "default", "left", "top", false, false, false, true, false)
+		dxDrawText("Voice: "..mod,564*x,560*y-(cpl.top*y), 0, 0, tocolor(255,255,255, 200*cpl.alpha), 0.5*x, "default", "left", "top", false, false, false, true, false)
+		dxDrawText("Fome: "..fome,564*x,570*y-(cpl.top*y), 0, 0, tocolor(255,255,255, 200*cpl.alpha), 0.5*x, "default", "left", "top", false, false, false, true, false)
+		dxDrawText("Sede: "..sede,564*x,580*y-(cpl.top*y), 0, 0, tocolor(255,255,255, 200*cpl.alpha), 0.5*x, "default", "left", "top", false, false, false, true, false)
+		dxDrawText("Vida: "..vida,564*x,590*y-(cpl.top*y), 0, 0, tocolor(255,255,255, 200*cpl.alpha), 0.5*x, "default", "left", "top", false, false, false, true, false)
+		dxDrawText("Colete: "..colete,564*x,600*y-(cpl.top*y), 0, 0, tocolor(255,255,255, 200*cpl.alpha), 0.5*x, "default", "left", "top", false, false, false, true, false)
+		dxDrawText("Level: "..level,564*x,610*y-(cpl.top*y), 0, 0, tocolor(255,255,255, 200*cpl.alpha), 0.5*x, "default", "left", "top", false, false, false, true, false)
+		dxDrawText("EXP: "..exp,564*x,620*y-(cpl.top*y), 0, 0, tocolor(255,255,255, 200*cpl.alpha), 0.5*x, "default", "left", "top", false, false, false, true, false)
+		if (clip) > 0 then
+			if getPedWeapon(localPlayer) ~= 28 then
+				dxDrawText("Balas: "..clip,564*x,630*y-(cpl.top*y), 0, 0, tocolor(255,255,255, 200*cpl.alpha), 0.5*x, "default", "left", "top", false, false, false, true, false)
+			end
+		end
+		if exports.utilidades:isPlayerTeamData(getLocalPlayer()) then
+
+		local radioText = "Copom: desligado"
+
+		if getElementData( localPlayer, "copom" ) then
+			radioText = "Copom: ligado"
+		end
+		dxDrawText(radioText,564*x,640*y-(cpl.top*y), 0, 0, tocolor(255,255,255, 200*cpl.alpha), 0.5*x, "default", "left", "top", false, false, false, true, false)
+		
+		end
+		if getKeyState(key) then
+			dxDrawImageSection(576*x,480*y-(cpl.top1*y), 50*x,50*y, 0, 0, 100, 100, "2.png", 0, 0, 0, tocolor(255,255,255, 255))
+			dxDrawImageSection(576*x,480*y-(cpl.top1*y), 50*x,50*y, 0, 0, 100, 100, "3.png", 0, 0, 0, tocolor(255,255,255, 255))
+			dxDrawText("www.fivem.cphmta.com.br",563*x,710*y-(cpl.top1*y), 0, 0, tocolor(255,255,255, 200), 0.5*x, "default", "left", "top", false, false, false, true, false)
+		else
+			dxDrawImageSection(576*x,480*y-(cpl.top1*y), 50*x,50*y, 0, 0, 100, 100, "2.png", 0, 0, 0, tocolor(255,255,255, 255))
+			dxDrawImageSection(576*x,480*y-(cpl.top1*y), 50*x,50*y, 0, 0, 100, 100, "3.png", 0, 0, 0, tocolor(255,255,255, 255))
+			Inventory.drawShadowText("www.fivem.cphmta.com.br",563*x,516*y-(56*y), 0, 0, tocolor(255,69,0, 255), 0.5*x, "default", "left", "top", false, false, false, true, false)
+		end
+
+	end
+end)
+
+local drw = function(key,ste)
+	if ste == "down" then
+		cpl.anim = true
+	elseif ste == "up" then
+		cpl.anim = false 
+	end
+	cpl.tickCount = getTickCount()
+end
+
+
+
+bindKey(key,"both",drw)

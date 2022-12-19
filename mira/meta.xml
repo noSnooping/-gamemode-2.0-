@@ -1,0 +1,9 @@
+<meta>
+    <info author="anony" version="0.1" name="mira" description="vejá por si mesmo" type="script" />
+	<file src="siteM16.png" download="false"/>
+	<script type="client" src="client_mira.lua" />
+
+    <oop>true</oop>
+    <download_priority_group>-2</download_priority_group>
+
+</meta>

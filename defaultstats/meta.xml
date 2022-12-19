@@ -1,0 +1,8 @@
+<meta>
+    <info author="anony" version="0.1" name="defaultstats" description="vejá por si mesmo" type="script" />
+	<script src="server_defaultstats.lua" />
+	<script src="client_defaultstats.lua" type="client"/>
+
+    <oop>true</oop>
+    <download_priority_group>-2</download_priority_group>
+</meta>

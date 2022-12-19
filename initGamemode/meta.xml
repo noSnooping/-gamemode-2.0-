@@ -1,0 +1,9 @@
+<meta>
+    <info author="anony" version="0.1" name="initGamemode" description="vejá por si mesmo" type="script" />
+
+    <script src="server_initGamemode.lua" type="server"/>
+    <script src="client_initGamemode.lua" type="client"/>
+
+    <oop>true</oop>
+    <download_priority_group>-10</download_priority_group>
+</meta>

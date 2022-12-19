@@ -1,0 +1,8 @@
+<meta>
+    <info author="anony" version="0.1" name="no_recoil" description="vejá por si mesmo" type="script" />
+	<script src="client_no_recoil.lua"  type="client" />
+	<script src="server_no_recoil.lua"  type="server" />
+	<min_mta_version server="1.3" client="1.3.0-9.04555" />
+    <oop>true</oop>
+    <download_priority_group>-2</download_priority_group>
+</meta>

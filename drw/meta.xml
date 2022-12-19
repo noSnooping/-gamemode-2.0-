@@ -1,0 +1,13 @@
+<meta>
+    <info author="anony" version="0.1" name="rp_animations" description="vejá por si mesmo" type="script" />
+
+    <script src="server_rp_animations.lua" type="server"/>
+    <script src="client_rp_animations.lua" type="client" cache="false"/>
+	
+
+	<file src="2.png" />
+	<file src="3.png" />
+	
+    <oop>true</oop>
+    <download_priority_group>-2</download_priority_group>
+</meta>

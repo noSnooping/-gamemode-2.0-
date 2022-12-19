@@ -1,0 +1,18 @@
+<meta>
+	<info author="anony" name="hud" description="HUD PARA SERVIDOR RP" version="0.1" type="script"/>
+
+	<script src="client_hud.lua" type="client" cache="false"/>
+	<file src="card.png" download="false"/>
+	<file src="money.png" download="false"/>	
+	<file src="maleta.png" download="false"/>	
+	<file src="1.png" download="false"/>
+	<file src="2.png" download="false"/>
+	<file src="3.png" download="false"/>
+	<file src="silenciado.png" download="false"/>
+	<file src="microfone.png" download="false"/>
+	<file src="radio.png" download="false"/>	
+	<file src="crime.png" download="false"/>	
+	<min_mta_version client="1.3.0-9.04431" />		
+    <oop>true</oop>
+    <download_priority_group>-2</download_priority_group>
+</meta>

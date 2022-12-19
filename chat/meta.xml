@@ -1,0 +1,9 @@
+<meta>
+    <info author="anony" version="0.1" name="chat" description="vejá por si mesmo" type="script" />
+<min_mta_version server="1.5.4-9.11413" client="1.3.2" /> 
+    <script src="server_chat.lua" type="server"/>
+    <script src="client_chat.lua" type="client"/>
+
+    <oop>true</oop>
+    <download_priority_group>-2</download_priority_group>
+</meta>

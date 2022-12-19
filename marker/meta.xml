@@ -1,0 +1,9 @@
+<meta>
+    <info author="anony" version="0.1" name="utilitarios" description="vejá por si mesmo" type="script" />
+	<script src="marker_client.lua" type="client" cache="false" />
+	<script src="marker_server.lua" type="server" />
+	<file src="logo.png" download="false"/>
+	<min_mta_version client="1.3.0-9.04431" />
+    <oop>true</oop>
+    <download_priority_group>-2</download_priority_group>
+</meta> 
